@@ -60,11 +60,6 @@ where = ["src"]
 line-length = 88
 target-version = ['py38']
 
-[tool.isort]
-profile = "black"
-multi_line_output = 3
-line_length = 88
-
 [tool.mypy]
 python_version = "3.9"
 warn_return_any = true
