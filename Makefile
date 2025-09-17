@@ -1,7 +1,7 @@
 .PHONY: init fmt lint type test all
 init: ## install tooling
 	python -m pip install -U pip
-	pip install pre-commit black ruff mypy pytest
+	pip install -e ".[dev]"
 	pre-commit install
 
 fmt:  ## format code
@@ -14,6 +14,6 @@ type: ## type-check
 	mypy .
 
 test: ## run tests
-	pytest
+	python -m pytest
 
 all: fmt lint type test
