@@ -41,6 +41,9 @@ dev = [
     "mypy>=1.0.0",
     "pre-commit>=3.0.0",
 ]
+dashboard = [
+    "flask>=3.0.0",
+]
 
 [project.scripts]
 package-name = "package_name.cli:main"
