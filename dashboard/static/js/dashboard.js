@@ -148,9 +148,11 @@ function updateTimeSeriesChart(data, seriesKeys) {
     
     const datasets = seriesKeys.map((key, idx) => {
         const colors = [COLORS.primary, COLORS.secondary, COLORS.tertiary];
+        // Convert series_1 to "Series 1" for display
+        const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         return {
-            label: key,
-            data: data[key],
+            label: label,
+            data: data[key] || [],
             borderColor: colors[idx % colors.length],
             backgroundColor: colors[idx % colors.length],
             borderWidth: 2,
@@ -177,9 +179,17 @@ function loadOverviewData() {
             });
             
             // Update charts if data available
-            if (data.chart_data && charts.chart2) {
-                charts.chart2.data.datasets[0].data = data.chart_data.values;
-                charts.chart2.update();
+            if (data.chart_data) {
+                if (charts.chart1) {
+                    charts.chart1.data.labels = data.chart_data.labels;
+                    charts.chart1.data.datasets[0].data = data.chart_data.values;
+                    charts.chart1.update();
+                }
+                if (charts.chart2) {
+                    charts.chart2.data.labels = data.chart_data.labels;
+                    charts.chart2.data.datasets[0].data = data.chart_data.values;
+                    charts.chart2.update();
+                }
             }
         })
         .catch(err => console.error('Failed to load overview data:', err));
@@ -190,7 +200,8 @@ function loadTimeSeriesData() {
         .then(r => r.json())
         .then(data => {
             currentData.timeseries = data;
-            const seriesKeys = Object.keys(data).filter(k => k !== 'rounds');
+            // Default to showing all series initially
+            const seriesKeys = ['series_1', 'series_2', 'series_3'];
             updateTimeSeriesChart(data, seriesKeys);
         })
         .catch(err => console.error('Failed to load timeseries data:', err));
@@ -223,12 +234,21 @@ function initToggleButtons() {
         const buttons = group.querySelectorAll('.toggle-btn');
         buttons.forEach(btn => {
             btn.addEventListener('click', () => {
-                buttons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+                btn.classList.toggle('active');
                 
-                // Handle toggle logic here
-                const series = btn.getAttribute('data-series');
-                console.log('Toggled to:', series);
+                // Toggle series visibility in timeseries chart
+                if (charts.timeseries && currentData.timeseries) {
+                    const activeButtons = Array.from(buttons).filter(b => b.classList.contains('active'));
+                    // Map button names (series1, series2, series3) to API names (series_1, series_2, series_3)
+                    const activeSeries = activeButtons.map(b => {
+                        const seriesName = b.getAttribute('data-series');
+                        return seriesName.replace(/(\d)/, '_$1');
+                    });
+                    
+                    // Update chart with only active series (or all if none selected)
+                    const seriesKeys = activeSeries.length > 0 ? activeSeries : ['series_1', 'series_2', 'series_3'];
+                    updateTimeSeriesChart(currentData.timeseries, seriesKeys);
+                }
             });
         });
     });
