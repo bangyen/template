@@ -156,15 +156,19 @@ class SimpleDashboard {
 
     // Load all data
     async loadData() {
+        this.showLoading('Loading dashboard data...');
         try {
             await Promise.all([
                 this.loadOverviewData(),
                 this.loadTimeSeriesData(),
                 this.loadDetailsData()
             ]);
+            this.showSuccess('Dashboard data loaded successfully');
         } catch (error) {
             console.error('Failed to load data:', error);
             this.showError('Failed to load dashboard data');
+        } finally {
+            this.hideLoading();
         }
     }
 
@@ -251,16 +255,52 @@ class SimpleDashboard {
         }
     }
 
+    // Show loading indicator
+    showLoading(message = 'Loading...') {
+        const loader = document.getElementById('loading-indicator');
+        const loaderText = document.getElementById('loading-text');
+        if (loader) {
+            loader.classList.remove('hidden');
+            if (loaderText) {
+                loaderText.textContent = message;
+            }
+        }
+    }
+
+    // Hide loading indicator
+    hideLoading() {
+        const loader = document.getElementById('loading-indicator');
+        if (loader) {
+            loader.classList.add('hidden');
+        }
+    }
+
+    // Show success message
+    showSuccess(message) {
+        this.showToast(message, 'success');
+    }
+
     // Show error message
     showError(message) {
+        this.showToast(message, 'error');
+    }
+
+    // Show toast notification
+    showToast(message, type = 'success') {
         const container = document.getElementById('messages');
         if (!container) return;
 
         const toast = document.createElement('div');
-        toast.className = 'error';
-        toast.innerHTML = `<span>${message}</span>`;
+        toast.className = type;
+        
+        const icon = type === 'success' ? 
+            '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' :
+            '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 8L8 4M8 12L8 12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="2"/></svg>';
+        
+        toast.innerHTML = `${icon}<span>${message}</span>`;
         container.appendChild(toast);
         
+        // Auto-remove after 5 seconds
         setTimeout(() => {
             if (toast.parentNode) {
                 toast.parentNode.removeChild(toast);

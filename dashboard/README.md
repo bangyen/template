@@ -6,6 +6,8 @@ A modern, production-ready analytics dashboard template built with FastAPI and m
 
 - **FastAPI Backend** - High-performance async API with automatic documentation
 - **Modern Frontend** - Responsive design with loading states and toast notifications
+- **Interactive Charts** - Chart.js integration with multiple chart types
+- **Multi-View Navigation** - Clean navigation between different dashboard views
 - **Pydantic Models** - Type-safe request/response validation
 - **Error Handling** - Comprehensive error handling with user-friendly messages
 - **CORS Support** - Configurable cross-origin resource sharing
@@ -23,6 +25,14 @@ python main.py
 ```
 
 That's it! The dashboard will start on `http://localhost:5050`
+
+### Development Mode
+
+For development with auto-reload:
+
+```bash
+python run.py
+```
 
 ## API Endpoints
 
