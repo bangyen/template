@@ -2,22 +2,17 @@
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-py-modules = []
-
 [project]
-name = "package-name"
-version = "0.1.0"
-description = "A Python package template"
-readme = "README.md"
-requires-python = ">=3.8"
-license = {text = "MIT"}
+name = "template-dashboard"
+version = "1.0.0"
+description = "A simple FastAPI dashboard template"
 authors = [
-    {name = "Your Name", email = "your.email@example.com"},
+    {name = "Template Author", email = "author@example.com"}
 ]
-keywords = ["python", "template", "package"]
+readme = "dashboard/README.md"
+requires-python = ">=3.8"
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
@@ -27,58 +22,31 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
-
 dependencies = [
-    "click>=8.0.0",
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "jinja2>=3.1.0",
+    "python-multipart>=0.0.6",
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
-    "pytest-cov>=4.0.0",
-    "black>=23.0.0",
-    "ruff>=0.1.0",
-    "mypy>=1.0.0",
-    "pre-commit>=3.0.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.25.0",
 ]
-dashboard = [
-    "flask>=3.0.0",
-]
-
-[project.scripts]
-package-name = "package_name.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/yourusername/package-name"
-Repository = "https://github.com/yourusername/package-name"
-Issues = "https://github.com/yourusername/package-name/issues"
+Homepage = "https://github.com/example/template-dashboard"
+Repository = "https://github.com/example/template-dashboard"
+Issues = "https://github.com/example/template-dashboard/issues"
+
+[project.scripts]
+dashboard = "dashboard.main:main"
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["."]
+include = ["dashboard*"]
 
-[tool.setuptools.package-dir]
-"" = "src"
-
-[tool.black]
-line-length = 88
-target-version = ['py38']
-
-[tool.mypy]
-python_version = "3.9"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-
-[tool.pytest.ini_options]
-minversion = "7.0"
-addopts = "-ra -q"
-testpaths = [
-    "tests",
-]
-
-[tool.coverage.run]
-source = ["src"]
-omit = [
-    "*/tests/*",
-    "*/test_*",
-]
+[tool.setuptools.package-data]
+dashboard = ["static/**/*", "templates/**/*"]
