@@ -1,8 +1,7 @@
 /**
- * Simple Template Dashboard JavaScript
+ * Template Dashboard JavaScript
  * 
- * A simplified dashboard template with basic functionality.
- * Easy to understand and customize for any project.
+ * Simple dashboard with navigation, charts, and data loading.
  */
 
 // Simple dashboard class
@@ -41,8 +40,7 @@ class SimpleDashboard {
                 const titles = {
                     'overview': 'Dashboard Overview',
                     'analytics': 'Analytics',
-                    'data': 'Data View',
-                    'settings': 'Settings'
+                    'data': 'Data View'
                 };
                 document.querySelector('.page-title').textContent = titles[viewName] || 'Dashboard';
             });
@@ -144,14 +142,6 @@ class SimpleDashboard {
         if (refreshBtn) {
             refreshBtn.addEventListener('click', () => this.loadData());
         }
-
-        // Toggle buttons for analytics
-        document.querySelectorAll('.toggle-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                btn.classList.toggle('active');
-                this.updateTimeSeriesChart();
-            });
-        });
     }
 
     // Load all data
@@ -211,12 +201,7 @@ class SimpleDashboard {
     updateTimeSeriesChart() {
         if (!this.charts.timeseries || !this.timeseriesData) return;
         
-        const activeButtons = Array.from(document.querySelectorAll('.toggle-btn.active'));
-        const seriesKeys = activeButtons.length > 0 ? 
-            activeButtons.map(b => b.getAttribute('data-series').replace(/(\d)/, '_$1')) :
-            ['series_1', 'series_2', 'series_3'];
-        
-        const datasets = seriesKeys.map((key, idx) => {
+        const datasets = ['series_1', 'series_2', 'series_3'].map((key, idx) => {
             const colors = ['#E63946', '#1D3557', '#457B9D'];
             const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
             return {

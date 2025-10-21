@@ -1,10 +1,8 @@
 """Template Dashboard
 
-A simple FastAPI dashboard template that can be customized for any project.
-Replace the placeholder API endpoints with your own data sources.
+A simple FastAPI dashboard template. Replace the example endpoints with your data sources.
 """
 
-import logging
 import os
 from datetime import datetime, timezone
 from pathlib import Path
@@ -15,10 +13,6 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -80,10 +74,7 @@ async def dashboard(request: Request) -> HTMLResponse:
 
 @app.get("/api/overview", response_model=OverviewResponse)
 async def overview_endpoint() -> OverviewResponse:
-    """Return overview metrics for the dashboard.
-
-    Replace this with your own data source.
-    """
+    """Return overview metrics for the dashboard."""
     # Example data - replace with your actual data source
     return OverviewResponse(
         metrics={
@@ -101,10 +92,7 @@ async def overview_endpoint() -> OverviewResponse:
 
 @app.get("/api/timeseries", response_model=TimeSeriesResponse)
 async def timeseries_endpoint() -> TimeSeriesResponse:
-    """Return time series data for visualizations.
-
-    Replace this with your own data source.
-    """
+    """Return time series data for visualizations."""
     # Example data - replace with your actual data source
     return TimeSeriesResponse(
         rounds=list(range(50)),
@@ -116,10 +104,7 @@ async def timeseries_endpoint() -> TimeSeriesResponse:
 
 @app.get("/api/details", response_model=DetailsResponse)
 async def details_endpoint() -> DetailsResponse:
-    """Return detailed data for the metrics view.
-
-    Replace this with your own data source.
-    """
+    """Return detailed data for the metrics view."""
     # Example data - replace with your actual data source
     return DetailsResponse(
         items=[
