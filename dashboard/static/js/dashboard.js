@@ -3,8 +3,6 @@
  * 
  * Simple dashboard with navigation, charts, and data loading.
  */
-
-// Simple dashboard class
 class SimpleDashboard {
     constructor() {
         this.apiBaseUrl = '/api';
@@ -19,7 +17,7 @@ class SimpleDashboard {
         this.loadData();
     }
 
-    // Navigation between views
+    // Navigation
     initNavigation() {
         const navItems = document.querySelectorAll('.nav-item');
         const views = document.querySelectorAll('.view-container');
@@ -47,7 +45,7 @@ class SimpleDashboard {
         });
     }
 
-    // Initialize charts
+    // Charts
     initCharts() {
         // Overview bar chart
         const chart1Ctx = document.getElementById('chart-1')?.getContext('2d');
@@ -135,7 +133,7 @@ class SimpleDashboard {
         }
     }
 
-    // Bind event listeners
+    // Events
     bindEvents() {
         // Refresh button
         const refreshBtn = document.getElementById('refresh-btn');
@@ -144,7 +142,7 @@ class SimpleDashboard {
         }
     }
 
-    // Load all data
+    // Data loading
     async loadData() {
         this.showLoading('Loading dashboard data...');
         try {
@@ -162,7 +160,7 @@ class SimpleDashboard {
         }
     }
 
-    // Load overview data
+    // Overview data
     async loadOverviewData() {
         const response = await fetch(`${this.apiBaseUrl}/overview`);
         const data = await response.json();
@@ -189,7 +187,7 @@ class SimpleDashboard {
         }
     }
 
-    // Load time series data
+    // Time series data
     async loadTimeSeriesData() {
         const response = await fetch(`${this.apiBaseUrl}/timeseries`);
         const data = await response.json();
@@ -220,7 +218,7 @@ class SimpleDashboard {
         this.charts.timeseries.update();
     }
 
-    // Load details data
+    // Details data
     async loadDetailsData() {
         const response = await fetch(`${this.apiBaseUrl}/details`);
         const data = await response.json();
@@ -240,7 +238,7 @@ class SimpleDashboard {
         }
     }
 
-    // Show loading indicator
+    // UI feedback
     showLoading(message = 'Loading...') {
         const loader = document.getElementById('loading-indicator');
         const loaderText = document.getElementById('loading-text');

@@ -24,7 +24,7 @@ app = FastAPI(
 )
 
 
-# Simple CORS configuration
+# CORS configuration
 cors_origins = os.getenv(
     "CORS_ORIGINS", "http://localhost:5050,http://127.0.0.1:5050"
 ).split(",")
@@ -44,7 +44,7 @@ app.mount(
 templates = Jinja2Templates(directory=str(dashboard_dir / "templates"))
 
 
-# Simple response models
+# Response models
 class OverviewResponse(BaseModel):
     metrics: dict
     chart_data: dict
