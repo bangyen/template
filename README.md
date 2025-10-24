@@ -19,12 +19,25 @@ Clone the repo and run the demo:
 ```bash
 git clone https://github.com/<username>/<repo>.git
 cd <repo>
-pip install -e .
-pytest   # optional: run tests
+just init     # install dependencies and setup pre-commit hooks
 python scripts/demo.py
 ```
 
 Or open in Colab: [Colab Notebook](<YOUR-COLAB-LINK>).
+
+### Development Commands
+
+This project uses [`just`](https://github.com/casey/just) as a task runner:
+
+```bash
+just init      # install tooling
+just fmt       # format code
+just lint      # lint code
+just type      # type-check
+just test      # run tests
+just all       # run all checks (fmt, lint, type, test)
+just dashboard # start Flask dashboard
+```
 
 ## Results
 
