@@ -35,11 +35,11 @@ test:
 
 # run all checks (fmt, lint, type, test)
 all: fmt lint type test
-    echo "All checks completed!"
+    @echo "All checks completed!"
 
 # start Flask dashboard
 dashboard:
-    echo "Starting dashboard..."
-    echo "Dashboard will be available at http://localhost:5050"
+    @echo "Starting dashboard..."
+    @echo "Dashboard will be available at http://localhost:5050"
     {{PYTHON}} dashboard/main.py
 

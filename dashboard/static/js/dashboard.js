@@ -296,3 +296,4 @@ class SimpleDashboard {
 document.addEventListener('DOMContentLoaded', () => {
     window.dashboard = new SimpleDashboard();
 });
+
