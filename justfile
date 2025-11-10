@@ -16,14 +16,28 @@ init:
         pip install -e ".[dev]"
         pre-commit install
     fi
+    echo "Installing JavaScript dependencies..."
+    npm install
 
 # format code
 fmt:
     {{PYTHON}} -m black .
 
-# lint code
-lint:
+# lint code (Python)
+lint_python:
     {{PYTHON}} -m ruff check .
+
+# lint code (JavaScript)
+lint_js:
+    npm run lint:js
+
+# lint styles (CSS)
+lint_css:
+    npm run lint:css
+
+# lint all code
+lint: lint_python lint_js lint_css
+    @echo "All lint checks completed!"
 
 # type-check
 type:
