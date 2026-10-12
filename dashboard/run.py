@@ -7,8 +7,9 @@ Supports both development and production modes.
 """
 
 import sys
-import uvicorn
 from pathlib import Path
+
+import uvicorn
 
 if __name__ == "__main__":
     # Add project root to Python path if not already present

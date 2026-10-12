@@ -21,7 +21,11 @@ init:
 
 # format code
 fmt:
-    {{PYTHON}} -m black .
+    {{PYTHON}} -m ruff format .
+
+# check formatting (CI)
+fmt-check:
+    {{PYTHON}} -m ruff format --check .
 
 # lint code (Python)
 lint_python:
@@ -51,7 +55,7 @@ test:
 all: fmt lint type test
     @echo "All checks completed!"
 
-# start Flask dashboard
+# start FastAPI dashboard
 dashboard:
     @echo "Starting dashboard..."
     @echo "Dashboard will be available at http://localhost:5050"

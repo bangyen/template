@@ -4,14 +4,14 @@ A simple FastAPI dashboard template. Replace the example endpoints with your dat
 """
 
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 # Initialize FastAPI app
@@ -25,9 +25,7 @@ app = FastAPI(
 
 
 # CORS configuration
-cors_origins = os.getenv(
-    "CORS_ORIGINS", "http://localhost:5050,http://127.0.0.1:5050"
-).split(",")
+cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:5050,http://127.0.0.1:5050").split(",")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[origin.strip() for origin in cors_origins if origin.strip()],
@@ -38,9 +36,7 @@ app.add_middleware(
 
 # Mount static files and templates
 dashboard_dir = Path(__file__).parent
-app.mount(
-    "/static", StaticFiles(directory=str(dashboard_dir / "static")), name="static"
-)
+app.mount("/static", StaticFiles(directory=str(dashboard_dir / "static")), name="static")
 templates = Jinja2Templates(directory=str(dashboard_dir / "templates"))
 
 
@@ -69,7 +65,7 @@ class HealthResponse(BaseModel):
 @app.get("/", response_class=HTMLResponse)
 async def dashboard(request: Request) -> HTMLResponse:
     """Serve the main dashboard page."""
-    return templates.TemplateResponse("dashboard.html", {"request": request})
+    return templates.TemplateResponse(request, "dashboard.html", {"request": request})
 
 
 @app.get("/api/overview", response_model=OverviewResponse)
@@ -118,9 +114,7 @@ async def details_endpoint() -> DetailsResponse:
 @app.get("/api/health", response_model=HealthResponse)
 async def health_check() -> HealthResponse:
     """Health check endpoint."""
-    return HealthResponse(
-        status="healthy", timestamp=datetime.now(timezone.utc).isoformat()
-    )
+    return HealthResponse(status="healthy", timestamp=datetime.now(UTC).isoformat())
 
 
 if __name__ == "__main__":
